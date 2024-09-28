@@ -3,7 +3,7 @@
 function db_connect()
 {
     // Specify the path to your SQLite database file
-    $database_file = "/var/www/dev/voter/db/votes.db";
+    $database_file = "/var/www/home/voter/db/votes.db";
 
     // Attempt to connect to the SQLite database
     $db = new SQLite3($database_file);
@@ -31,9 +31,15 @@ function get_candidate()
 
     // Get the database object from the connection
     $db = $connection['db'];
+
+    // Extract the candidate ID from the POST data
+    $table = $_POST["table"];
+    $field = $_POST["field"];
     $id = $_POST["id"];
+
     // Perform a query to fetch all rows from the 'CANDIDATES' table
-    $stmt = $db->prepare("SELECT * FROM CANDIDATES WHERE candidate_id = :id");
+    // $stmt = $db->prepare("SELECT * FROM CANDIDATES WHERE candidate_id = :id");
+    $stmt = $db->prepare("SELECT *  FROM " . $db->escapeString($table) . " WHERE " . $db->escapeString($field) . " = :id");
     $stmt->bindValue(':id', $id);
     // Execute the prepared statement
     $result = $stmt->execute();

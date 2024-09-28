@@ -3,7 +3,7 @@
 function db_connect()
 {
     // Specify the path to your SQLite database file
-    $database_file = "/var/www/dev/voter/db/votes.db";
+    $database_file = "/var/www/home/voter/db/votes.db";
 
     // Attempt to connect to the SQLite database
     $db = new SQLite3($database_file);
@@ -18,7 +18,7 @@ function db_connect()
     }
 }
 
-function get_candidate()
+function get_data()
 {
     // Connect to the database
     $connection = db_connect();
@@ -33,10 +33,13 @@ function get_candidate()
     $db = $connection['db'];
 
     // Extract the candidate ID from the POST data
+    $table = $_POST["table"];
+    $field = $_POST["field"];
     $id = $_POST["id"];
 
     // Prepare a statement to delete the candidate
-    $stmt = $db->prepare("DELETE FROM CANDIDATES WHERE candidate_id = :id");
+    // $stmt = $db->prepare("DELETE FROM CANDIDATES WHERE candidate_id = :id");
+    $stmt = $db->prepare("DELETE FROM " . $db->escapeString($table) . " WHERE " . $db->escapeString($field) . " = :id");
     $stmt->bindValue(':id', $id);
 
     // Execute the prepared statement
@@ -51,7 +54,7 @@ function get_candidate()
         $db->close();
 
         // Return success response
-        return array('success' => 'Candidate deleted successfully');
+        return array('success' => 'Data deleted successfully');
     } else {
         // If the delete operation fails, handle the error here
         $error = "Delete operation failed: " . $db->lastErrorMsg();
@@ -69,7 +72,7 @@ function get_candidate()
 
 
 // Call the function to get candidate data
-$response = get_candidate();
+$response = get_data();
 
 // Encode the response as JSON and output it
 header('Content-Type: application/json; charset=utf-8');
