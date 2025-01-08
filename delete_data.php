@@ -3,7 +3,7 @@
 function db_connect()
 {
     // Specify the path to your SQLite database file
-    $database_file = "/var/www/home/voter/db/votes.db";
+    $database_file = "/var/www/web/voter/db/votes.db";
 
     // Attempt to connect to the SQLite database
     $db = new SQLite3($database_file);

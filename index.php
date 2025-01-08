@@ -72,7 +72,7 @@
         function get_candidate() {
             $.ajax({
                 type: "GET",
-                url: "system.php",
+                url: "/system.php",
                 dataType: "JSON",
                 success: function(response) {
                     // console.log(response);
@@ -86,10 +86,9 @@
 
                         // Create a flex container for the 'Riwayat' and 'Sambutan' buttons
                         let cardRiw = $('<div class="d-flex mt-2">');
-                        let btnRiw = $('<a href="javascript:void(0)" id="btnRiw" data-riwayat="" class="btn btn-info flex-fill me-1">Riwayat</a>'); // Added flex-fill and small right margin
                         let btnSambutan = $('<a href="#" class="btn btn-primary flex-fill">Sambutan</a>'); // Added flex-fill
 
-                        cardRiw.append(btnRiw, btnSambutan); // Add both buttons in the same flex row                        
+                        cardRiw.append(btnSambutan); // Add both buttons in the same flex row                        
 
                         let img = row.picture_url;
                         let name = row.candidate_name;
